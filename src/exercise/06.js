@@ -4,25 +4,29 @@
 import * as React from 'react'
 
 function UsernameForm({onSubmitUsername}) {
-  // 🐨 add a submit event handler here (`handleSubmit`).
-  // 💰 Make sure to accept the `event` as an argument and call
-  // `event.preventDefault()` to prevent the default behavior of form submit
-  // events (which refreshes the page).
-  //
-  // 🐨 get the value from the username input (using whichever method
-  // you prefer from the options mentioned in the instructions)
-  // 💰 For example: event.target.elements[0].value
-  // 🐨 Call `onSubmitUsername` with the value of the input
+  const [username, setUsername] = React.useState('')
 
-  // 🐨 add the onSubmit handler to the <form> below
+  const handleSubmit = event => {
+    event.preventDefault()
+    onSubmitUsername(username)
+  }
 
-  // 🐨 make sure to associate the label to the input.
-  // to do so, set the value of 'htmlFor' prop of the label to the id of input
+  const handleChange = event => {
+    const userInput = event.target.value
+
+    setUsername(userInput.toLowerCase())
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label>Username:</label>
-        <input type="text" />
+        <label htmlFor="usernameInput">Username:</label>
+        <input
+          id="usernameInput"
+          onChange={handleChange}
+          value={username}
+          type="text"
+        />
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -35,3 +39,50 @@ function App() {
 }
 
 export default App
+
+// Extra Credit 2 Saving
+//
+// function UsernameForm({onSubmitUsername}) {
+//   const [error, setError] = React.useState(null)
+
+//   const handleSubmit = event => {
+//     event.preventDefault()
+
+//     console.dir(event.target)
+
+//     onSubmitUsername(event.target.elements.usernameInput.value)
+//   }
+
+//   const handleChange = event => {
+//     console.dir(event.target.value)
+//     const userInput = event.target.value
+
+//     // const isLowerCase = value === value.toLowerCase()
+//     let isLowerCase = true
+//     if (userInput !== userInput.toLowerCase()) {
+//       isLowerCase = false
+//     }
+
+//     // setError(isLowerCase ? null : 'Username must be lower case')
+//     if (isLowerCase) {
+//       setError(null)
+//     } else {
+//       setError('Username must be lower case')
+//     }
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <div>
+//         <label htmlFor="usernameInput">Username:</label>
+//         <input id="usernameInput" onChange={handleChange} type="text" />
+//       </div>
+//       <div role="alert" style={{color: 'red'}}>
+//         {error}
+//       </div>
+//       <button disabled={Boolean(error)} type="submit">
+//         Submit
+//       </button>
+//     </form>
+//   )
+// }
